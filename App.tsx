@@ -4,6 +4,7 @@ import {
   Roboto_700Bold,
   useFonts,
 } from "@expo-google-fonts/roboto";
+import { THEME } from "@theme/index";
 import { NativeBaseProvider } from "native-base";
 import { StatusBar, Text } from "react-native";
 
@@ -13,7 +14,7 @@ export default function App() {
     Roboto_700Bold,
   });
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider theme={THEME}>
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
