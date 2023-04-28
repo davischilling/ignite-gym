@@ -5,3 +5,6 @@
 
 - Path mapping
 >> npm i -D babel-plugin-module-resolver
+
+- fonts
+>> npx expo install expo-font @expo-google-fonts/roboto
