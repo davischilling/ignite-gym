@@ -1,3 +1,4 @@
+import { Loading } from "@components/Loading";
 import {
   Roboto_400Regular,
   Roboto_700Bold,
@@ -18,7 +19,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded && <Text>Hello world</Text>}
+      {fontsLoaded ? <Text>Hello world</Text> : <Loading />}
     </NativeBaseProvider>
   );
 }
