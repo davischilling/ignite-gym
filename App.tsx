@@ -2,12 +2,11 @@ import { Loading } from "@components/Loading";
 import {
   Roboto_400Regular,
   Roboto_700Bold,
-  useFonts,
+  useFonts
 } from "@expo-google-fonts/roboto";
-import { SignIn } from "@screens/SignIn";
-import { SignUp } from "@screens/SignUp";
+import { Routes } from "@navigation/index";
 import { THEME } from "@theme/index";
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, VStack } from "native-base";
 import { StatusBar } from "react-native";
 
 export default function App() {
@@ -22,7 +21,13 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <SignUp /> : <Loading />}
+      {fontsLoaded ? (
+        <Routes />
+      ) : (
+        <VStack flex={1} bg="gray.700">
+          <Loading />
+        </VStack>
+      )}
     </NativeBaseProvider>
   );
 }
