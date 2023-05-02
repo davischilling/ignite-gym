@@ -12,7 +12,6 @@ import { History } from "@screens/History";
 import HomeSVG from "@assets/home.svg";
 import HistorySVG from "@assets/history.svg";
 import ProfileSVG from "@assets/profile.svg";
-import ExerciseSVG from "@assets/exercise.svg";
 import { useTheme } from "native-base";
 
 type AppRoutes = {
