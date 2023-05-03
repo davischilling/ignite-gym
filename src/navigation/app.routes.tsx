@@ -4,14 +4,14 @@ import {
   BottomTabNavigationProp,
 } from "@react-navigation/bottom-tabs";
 
-import { Exercise } from "@screens/Exercise";
-import { Home } from "@screens/Home";
-import { Profile } from "@screens/Profile";
-import { History } from "@screens/History";
+import { Exercise } from "@/screens/Exercise";
+import { Home } from "@/screens/Home";
+import { Profile } from "@/screens/Profile";
+import { History } from "@/screens/History";
 
-import HomeSVG from "@assets/home.svg";
-import HistorySVG from "@assets/history.svg";
-import ProfileSVG from "@assets/profile.svg";
+import HomeSVG from "@/assets/home.svg";
+import HistorySVG from "@/assets/history.svg";
+import ProfileSVG from "@/assets/profile.svg";
 import { useTheme } from "native-base";
 
 type AppRoutes = {

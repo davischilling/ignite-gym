@@ -4,17 +4,17 @@
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "@dtos/*": ["dtos/*"],
-      "@assets/*": ["assets/*"],
-      "@components/*": ["components/*"],
-      "@screens/*": ["screens/*"],
-      "@storage/*": ["storage/*"],
-      "@utils/*": ["utils/*"],
-      "@theme/*": ["theme/*"],
-      "@services/*": ["services/*"],
-      "@hooks/*": ["hooks/*"],
-      "@contexts/*": ["contexts/*"],
-      "@navigation/*": ["navigation/*"],
+      "@/dtos/*": ["dtos/*"],
+      "@/assets/*": ["assets/*"],
+      "@/components/*": ["components/*"],
+      "@/screens/*": ["screens/*"],
+      "@/storage/*": ["storage/*"],
+      "@/utils/*": ["utils/*"],
+      "@/theme/*": ["theme/*"],
+      "@/services/*": ["services/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/contexts/*": ["contexts/*"],
+      "@/navigation/*": ["navigation/*"],
     }
   }
 }

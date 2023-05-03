@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
 
-import BGImg from "@assets/background.png";
-import LogoSVG from "@assets/logo.svg";
-import { Input } from "@components/input";
-import { Button } from "@components/Button";
+import BGImg from "@/assets/background.png";
+import LogoSVG from "@/assets/logo.svg";
+import { Input } from "@/components/Input";
+import { Button } from "@/components/Button";
 
 const IGText = ({ text }: { text: string }) => (
   <Text color="gray.100" fontSize="sm">
