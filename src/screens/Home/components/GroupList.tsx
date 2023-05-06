@@ -27,5 +27,6 @@ export const GroupList = ({
     _contentContainerStyle={{ px: 4 }}
     my={8}
     maxH={10}
+    minH={10}
   />
 );

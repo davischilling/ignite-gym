@@ -11,7 +11,7 @@ type Props = {
 export const Header = ({ greetings, name, children }: Props) => (
   <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
     {children}
-    <VStack flex={1}>
+    <VStack flex={1} ml={4}>
       <Text color="gray.100" fontSize="md">
         {greetings},
       </Text>

@@ -8,8 +8,8 @@ type Props = TouchableOpacityProps & {
   description: string;
 };
 
-export const ExerciseCard = ({ uri, heading, description }: Props) => (
-  <TouchableOpacity>
+export const ExerciseCard = ({ uri, heading, description, ...rest }: Props) => (
+  <TouchableOpacity {...rest}>
     <HStack bg="gray.500" alignItems="center" p={2} pr={4} rounded="md" mb={3}>
       <Image
         alt="Imagem do exercício"
@@ -17,7 +17,7 @@ export const ExerciseCard = ({ uri, heading, description }: Props) => (
         h={16}
         rounded="md"
         mr={4}
-        resizeMode="center"
+        resizeMode="cover"
         source={{
           uri,
         }}

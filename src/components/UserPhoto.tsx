@@ -11,7 +11,6 @@ export const UserPhoto = ({ size, ...rest }: Props) => (
     rounded="full"
     borderWidth={2}
     borderColor="gray.400"
-    mr={4}
     {...rest}
   />
 );

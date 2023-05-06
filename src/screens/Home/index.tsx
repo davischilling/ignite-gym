@@ -1,15 +1,22 @@
 import { useState } from "react";
 import { VStack } from "native-base";
 
-import { ExerciseCounter, GroupList, Header, UserPhoto } from "./components";
-import { ExerciseCard } from "./components/ExerciseCard";
+import { ExerciseCounter, GroupList, Header } from "./components";
 import { ExerciseCardList } from "./components/ExerciseCardList";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@/navigation/app.routes";
+import { UserPhoto } from "@/components/UserPhoto";
 
 const GROUPS = ["Costas", "Ombros", "Pernas", "Braços", "Peito"];
 const EXERCISES = ["Remada", "Puxada", "Ombrada", "Sarrada"];
 
 export const Home = () => {
   const [groupSelected, setGroupSelected] = useState("costas");
+
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const handleNavigateToExerciseDetails = () => {
+    navigation.navigate("Exercise");
+  }
 
   return (
     <VStack flex={1}>
@@ -31,6 +38,7 @@ export const Home = () => {
         <ExerciseCounter title="Exercícios" counter={EXERCISES.length} />
         <ExerciseCardList
           exercises={EXERCISES}
+          onPress={handleNavigateToExerciseDetails}
         />
       </VStack>
     </VStack>
