@@ -24,3 +24,7 @@
 
 - Bottom Navigation
 > npm i @react-navigation/bottom-tabs
+
+- image upload
+> npx expo install expo-image-picker
+> npx expo install expo-file-system
