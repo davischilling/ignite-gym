@@ -2,9 +2,16 @@ import { useNavigation } from "@react-navigation/native";
 import { Heading, ScrollView, VStack } from "native-base";
 
 import { Button } from "@/components/Button";
+import { FormValidation } from "@/contexts/Validation";
+import {
+  SignUpDefaultValues,
+  SignUpFormData,
+  signUpSchema,
+  SignUpValidationContext,
+} from "@/validations/signUp";
 import { Header } from "./components/Header";
-import { FormValidation } from "./FormValidation";
-import { SignUpFormData } from "@/validations/signUp";
+import { FormInputs } from "./components/FormInputs";
+
 
 export const SignUp = () => {
   const navigation = useNavigation();
@@ -32,7 +39,13 @@ export const SignUp = () => {
         >
           Crie sua conta
         </Heading>
-        <FormValidation onSubmit={handleSignUp} />
+        <FormValidation
+          ValidationContext={SignUpValidationContext}
+          schema={signUpSchema}
+          defaultValues={SignUpDefaultValues}
+        >
+          <FormInputs onSubmit={handleSignUp} />
+        </FormValidation>
         <Button
           title="Voltar para o login"
           variant="outline"

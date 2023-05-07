@@ -1,11 +1,15 @@
 import { useContext } from "react";
 import { Controller } from "react-hook-form";
 
-import { SignUpFormProps, SignUpValidationContext } from "@/validations/signUp";
+import { SignUpFormData, SignUpValidationContext } from "@/validations/signUp";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 
-export const FormInputs = ({ onSubmit }: SignUpFormProps) => {
+export type Props = {
+  onSubmit: (data: SignUpFormData) => void;
+};
+
+export const FormInputs = ({ onSubmit }: Props) => {
   const { control, errors, handleSubmit } = useContext(SignUpValidationContext);
 
   return (

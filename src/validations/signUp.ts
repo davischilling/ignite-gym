@@ -1,8 +1,24 @@
 import * as yup from "yup";
 import { createContext } from "react";
-import {
-  ValidationContextType,
-} from "@/contexts/Validation";
+import { ValidationContextType } from "@/contexts/Validation";
+
+export type SignUpFormData = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+};
+
+export const SignUpValidationContext = createContext(
+  {} as ValidationContextType<SignUpFormData>
+);
+
+export const SignUpDefaultValues = {
+  name: "",
+  email: "",
+  password: "",
+  password_confirm: "",
+};
 
 export const signUpSchema = yup.object().shape({
   name: yup.string().required("Informe o nome."),
@@ -19,18 +35,3 @@ export const signUpSchema = yup.object().shape({
     .required("Informe a confirmação da senha.")
     .oneOf([yup.ref("password"), ""], "As senhas devem ser iguais."),
 });
-
-export type SignUpFormData = {
-  name: string;
-  email: string;
-  password: string;
-  password_confirm: string;
-};
-
-export type SignUpFormProps = {
-  onSubmit: (data: SignUpFormData) => void;
-};
-
-export const SignUpValidationContext = createContext(
-  {} as ValidationContextType<SignUpFormData>
-);

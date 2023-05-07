@@ -1,5 +1,5 @@
-import { createContext, ReactNode } from "react";
 import { useValidation } from "@/hooks/useValidation";
+import { ReactNode } from "react";
 import {
   Control,
   FieldErrors,
@@ -18,14 +18,14 @@ interface ValidationProviderProps<T extends FieldValues> {
   children: ReactNode;
   defaultValues?: any;
   schema: yup.ObjectSchema<any>;
-  ValidationContext: React.Context<ValidationContextType<T>>
+  ValidationContext: React.Context<ValidationContextType<T>>;
 }
 
 export function ValidationProvider<T extends FieldValues>({
   children,
   defaultValues,
   schema,
-  ValidationContext
+  ValidationContext,
 }: ValidationProviderProps<T>) {
   const { control, errors, handleSubmit } = useValidation<T>({
     defaultValues,
@@ -42,5 +42,22 @@ export function ValidationProvider<T extends FieldValues>({
     >
       {children}
     </ValidationContext.Provider>
+  );
+}
+
+export function FormValidation<T extends FieldValues>({
+  ValidationContext,
+  schema,
+  defaultValues,
+  children,
+}: ValidationProviderProps<T>) {
+  return (
+    <ValidationProvider
+      ValidationContext={ValidationContext}
+      schema={schema}
+      defaultValues={defaultValues}
+    >
+      {children}
+    </ValidationProvider>
   );
 }
