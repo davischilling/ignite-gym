@@ -3,7 +3,8 @@ import { Heading, ScrollView, VStack } from "native-base";
 
 import { Button } from "@/components/Button";
 import { Header } from "./components/Header";
-import { SignUpFormData, FormValidation } from "./validation";
+import { FormValidation } from "./FormValidation";
+import { SignUpFormData } from "@/validations/signUp";
 
 export const SignUp = () => {
   const navigation = useNavigation();
@@ -31,7 +32,6 @@ export const SignUp = () => {
         >
           Crie sua conta
         </Heading>
-
         <FormValidation onSubmit={handleSignUp} />
         <Button
           title="Voltar para o login"

@@ -1,21 +1,13 @@
-import {
-  Control,
-  Controller,
-  FieldErrors,
-  UseFormHandleSubmit,
-} from "react-hook-form";
+import { useContext } from "react";
+import { Controller } from "react-hook-form";
 
+import { SignUpFormProps, SignUpValidationContext } from "@/validations/signUp";
+import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
-import { SignUpFormData } from "../validation";
 
-type Props = {
-  control: Control<SignUpFormData, any>;
-  errors: FieldErrors<SignUpFormData>;
-  handleSubmit: UseFormHandleSubmit<SignUpFormData>;
-  onSubmit: (data: SignUpFormData) => void;
-};
+export const FormInputs = ({ onSubmit }: SignUpFormProps) => {
+  const { control, errors, handleSubmit } = useContext(SignUpValidationContext);
 
-export const Inputs = ({ control, errors, handleSubmit, onSubmit }: Props) => {
   return (
     <>
       <Controller
@@ -30,7 +22,6 @@ export const Inputs = ({ control, errors, handleSubmit, onSubmit }: Props) => {
           />
         )}
       />
-
       <Controller
         control={control}
         name="email"
@@ -73,6 +64,7 @@ export const Inputs = ({ control, errors, handleSubmit, onSubmit }: Props) => {
           />
         )}
       />
+      <Button title="Criar e acessar" onPress={handleSubmit(onSubmit)} />
     </>
   );
 };

@@ -15,6 +15,7 @@
       "@/hooks/*": ["hooks/*"],
       "@/contexts/*": ["contexts/*"],
       "@/navigation/*": ["navigation/*"],
+      "@/validations/*": ["validations/*"],
     }
   }
 }
