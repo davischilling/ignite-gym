@@ -28,3 +28,7 @@
 - image upload
 > npx expo install expo-image-picker
 > npx expo install expo-file-system
+
+- form-validation
+> npm install react-hook-form
+> npm install @hookform/resolvers yup

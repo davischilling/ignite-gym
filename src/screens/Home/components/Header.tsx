@@ -15,7 +15,7 @@ export const Header = ({ greetings, name, children }: Props) => (
       <Text color="gray.100" fontSize="md">
         {greetings},
       </Text>
-      <Heading color="gray.100" fontSize="md">
+      <Heading color="gray.100" fontSize="md" fontFamily="heading">
         {name}
       </Heading>
     </VStack>

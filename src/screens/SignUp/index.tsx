@@ -1,22 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
-import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
+import { Heading, ScrollView, VStack } from "native-base";
 
-import BGImg from "@/assets/background.png";
-import LogoSVG from "@/assets/logo.svg";
-import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
-
-const IGText = ({ text }: { text: string }) => (
-  <Text color="gray.100" fontSize="sm">
-    {text}
-  </Text>
-);
+import { Header } from "./components/Header";
+import { SignUpFormData, FormValidation } from "./validation";
 
 export const SignUp = () => {
   const navigation = useNavigation();
-
   const handleGoBack = () => {
     navigation.goBack();
+  };
+
+  const handleSignUp = (data: SignUpFormData) => {
+    console.log(data);
   };
 
   return (
@@ -25,17 +21,7 @@ export const SignUp = () => {
       showsVerticalScrollIndicator={false}
     >
       <VStack flex={1} px={5} pb={16}>
-        <Image
-          source={BGImg}
-          defaultSource={BGImg}
-          alt="Pessoas treinando"
-          resizeMode="contain"
-          position="absolute"
-        />
-        <Center my={24}>
-          <LogoSVG />
-          <IGText text="Treine a sua mente e o seu corpo" />
-        </Center>
+        <Header />
         <Heading
           color="gray.100"
           fontSize="xl"
@@ -45,19 +31,12 @@ export const SignUp = () => {
         >
           Crie sua conta
         </Heading>
-        <Input placeholder="Nome" />
-        <Input
-          placeholder="E-mail"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <Input placeholder="Senha" secureTextEntry />
-        <Button title="Criar e acessar" />
 
+        <FormValidation onSubmit={handleSignUp} />
         <Button
           title="Voltar para o login"
           variant="outline"
-          mt={24}
+          mt={12}
           onPress={handleGoBack}
         />
       </VStack>
