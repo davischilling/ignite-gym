@@ -1,4 +1,4 @@
-import { FlatList, Heading, HStack, Text } from "native-base";
+import { FlatList } from "native-base";
 import { ExerciseCard } from "./ExerciseCard";
 
 type Props = {

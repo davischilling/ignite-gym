@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Heading, ScrollView, VStack } from "native-base";
+import { ScrollView, VStack } from "native-base";
 
 import { Button } from "@/components/Button";
 import { FormValidation } from "@/contexts/Validation";
@@ -9,9 +9,8 @@ import {
   signUpSchema,
   SignUpValidationContext,
 } from "@/validations/signUp";
-import { Header } from "./components/Header";
 import { FormInputs } from "./components/FormInputs";
-
+import { Header } from "./components/Header";
 
 export const SignUp = () => {
   const navigation = useNavigation();
@@ -30,15 +29,6 @@ export const SignUp = () => {
     >
       <VStack flex={1} px={5} pb={16}>
         <Header />
-        <Heading
-          color="gray.100"
-          fontSize="xl"
-          mb={6}
-          textAlign="center"
-          fontFamily="heading"
-        >
-          Crie sua conta
-        </Heading>
         <FormValidation
           ValidationContext={SignUpValidationContext}
           schema={signUpSchema}

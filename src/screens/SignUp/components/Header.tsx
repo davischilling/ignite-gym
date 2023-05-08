@@ -1,4 +1,4 @@
-import { Center, Image, Text } from "native-base";
+import { Center, Image, Text, Heading } from "native-base";
 
 import BGImg from "@/assets/background.png";
 import LogoSVG from "@/assets/logo.svg";
@@ -18,5 +18,14 @@ export const Header = () => (
         Treine a sua mente e o seu corpo
       </Text>
     </Center>
+    <Heading
+      color="gray.100"
+      fontSize="xl"
+      mb={6}
+      textAlign="center"
+      fontFamily="heading"
+    >
+      Crie sua conta
+    </Heading>
   </>
 );
