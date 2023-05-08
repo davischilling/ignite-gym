@@ -19,7 +19,7 @@ export const SignUp = () => {
     navigation.goBack();
   };
 
-  const handleSignUp = (data: SignUpFormData) => {
+  const handleSignUpSubmit = (data: SignUpFormData) => {
     console.log(data);
   };
 
@@ -44,7 +44,7 @@ export const SignUp = () => {
           schema={signUpSchema}
           defaultValues={SignUpDefaultValues}
         >
-          <FormInputs onSubmit={handleSignUp} />
+          <FormInputs onSubmit={handleSignUpSubmit} />
         </FormValidation>
         <Button
           title="Voltar para o login"

@@ -21,7 +21,7 @@ interface ValidationProviderProps<T extends FieldValues> {
   ValidationContext: React.Context<ValidationContextType<T>>;
 }
 
-export function ValidationProvider<T extends FieldValues>({
+function ValidationProvider<T extends FieldValues>({
   children,
   defaultValues,
   schema,
