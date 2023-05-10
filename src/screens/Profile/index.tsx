@@ -1,14 +1,13 @@
-import { Center, ScrollView, VStack, useToast } from "native-base";
-import React, { useState } from "react";
-import { Alert } from "react-native";
 import { Header } from "@/components/Header";
 import { UserPhoto } from "@/components/UserPhoto";
+import { Center, ScrollView, useToast, VStack } from "native-base";
+import React, { useState } from "react";
 import { ChangePhoto } from "./components/ChangePhoto";
-import { Inputs } from "./components/Inputs";
+import { FormInputs } from "./components/Inputs";
 import { PhotoSkeleton } from "./components/PhotoSkeleton";
 
-import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import * as ImagePicker from "expo-image-picker";
 
 
 const PHOTO_SIZE = 33;
@@ -64,7 +63,7 @@ export const Profile = () => {
             />
           )}
           <ChangePhoto text="Alterar foto" onPress={handleSelectImage} />
-          <Inputs />
+          <FormInputs />
         </Center>
       </ScrollView>
     </VStack>

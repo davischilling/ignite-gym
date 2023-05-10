@@ -2,7 +2,7 @@ import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Heading } from "native-base";
 
-export const Inputs = () => (
+export const FormInputs = () => (
   <>
     <Input bg="gray.600" placeholder="Nome" />
     <Input bg="gray.600" placeholder="E-mail" isDisabled />
