@@ -6,6 +6,15 @@ import BGImg from "@/assets/background.png";
 import LogoSVG from "@/assets/logo.svg";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
+import { Header } from "./components/Header";
+import { FormValidation } from "@/contexts/Validation";
+import {
+  SignInDefaultValues,
+  SignInFormData,
+  signInSchema,
+  SignInValidationContext,
+} from "@/validations/signIn";
+import { FormInputs } from "./components/FormInputs";
 
 const IGText = ({ text }: { text: string }) => (
   <Text color="gray.100" fontSize="sm">
@@ -20,39 +29,24 @@ export const SignIn = () => {
     navigation.navigate("SignUp");
   };
 
+  const handleSignInSubmit = (data: SignInFormData) => {
+    console.log(data);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
       <VStack flex={1} px={5} pb={16}>
-        <Image
-          source={BGImg}
-          defaultSource={BGImg}
-          alt="Pessoas treinando"
-          resizeMode="contain"
-          position="absolute"
-        />
-        <Center my={24}>
-          <LogoSVG />
-          <IGText text="Treine a sua mente e o seu corpo" />
-        </Center>
-        <Heading
-          color="gray.100"
-          fontSize="xl"
-          mb={6}
-          textAlign="center"
-          fontFamily="heading"
+        <Header />
+        <FormValidation
+          ValidationContext={SignInValidationContext}
+          schema={signInSchema}
+          defaultValues={SignInDefaultValues}
         >
-          Acesse sua conta
-        </Heading>
-        <Input
-          placeholder="E-mail"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <Input placeholder="Senha" secureTextEntry />
-        <Button title="Acessar" />
+          <FormInputs onSubmit={handleSignInSubmit} />
+        </FormValidation>
 
         <Center mt={24}>
           <Text color="gray.100" fontSize="sm" mb={3} fontFamily="body">
