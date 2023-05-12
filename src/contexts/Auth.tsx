@@ -1,7 +1,9 @@
 import { api } from "@/services/api";
+import { deleteStorageAuthToken, getStorageAuthToken, setStorageAuthToken } from "@/storage/token";
 import { deleteStorageUser, setStorageUser, UserStorage } from "@/storage/user";
 import { getStorageUser } from "@/storage/user/get";
 import { AppError } from "@/utils/AppError";
+import { setStorageUserAndAuthToken } from "@/utils/setStorageUserAndToken";
 import { SignInFormData } from "@/validations/signIn";
 import { SignUpFormData } from "@/validations/signUp";
 import { useToast } from "native-base";
@@ -37,7 +39,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-      data.user && (await setStorageUser(data.user, () => setUser(data.user)));
+      await setStorageUserAndAuthToken({
+        user: data.user,
+        authToken: data.token,
+        setUser,
+      });
     } catch (err) {
       const isAppError = err instanceof AppError;
       const title = isAppError ? err.message : "Erro na autenticação";
@@ -66,7 +72,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-      data.user && (await setStorageUser(data.user, () => setUser(data.user)));
+      await setStorageUserAndAuthToken({
+        user: data.user,
+        authToken: data.token,
+        setUser,
+      });
     } catch (error) {
       const isAppError = error instanceof AppError;
       const title = isAppError
@@ -85,6 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       setIsLoadingUserFromStorage(true);
       await deleteStorageUser(() => setUser({} as UserStorage));
+      await deleteStorageAuthToken();
     } catch (err) {
       throw err;
     } finally {
@@ -92,9 +103,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  const loadUserFromStorage = async () => {
+  const loadAuthStorageInitialState = async () => {
     try {
       await getStorageUser(setUser);
+      await getStorageAuthToken((authToken: string) => {
+        api.defaults.headers.authorization = `Bearer ${authToken}`;
+      });
     } catch (err) {
       throw err;
     } finally {
@@ -103,7 +117,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    loadUserFromStorage();
+    loadAuthStorageInitialState();
   }, []);
 
   return (
