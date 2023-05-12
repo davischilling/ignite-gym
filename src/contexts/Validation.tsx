@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import * as yup from "yup";
 
-export interface ValidationContextType<T extends FieldValues> {
+export interface ValidationContextDataProps<T extends FieldValues> {
   control: Control<T, any>;
   handleSubmit: UseFormHandleSubmit<T>;
   errors: FieldErrors<T>;
@@ -18,7 +18,7 @@ interface ValidationProviderProps<T extends FieldValues> {
   children: ReactNode;
   defaultValues?: any;
   schema: yup.ObjectSchema<any>;
-  ValidationContext: React.Context<ValidationContextType<T>>;
+  ValidationContext: React.Context<ValidationContextDataProps<T>>;
 }
 
 function ValidationProvider<T extends FieldValues>({

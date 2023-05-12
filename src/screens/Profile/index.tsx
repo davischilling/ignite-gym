@@ -3,7 +3,7 @@ import { UserPhoto } from "@/components/UserPhoto";
 import { Center, ScrollView, useToast, VStack } from "native-base";
 import React, { useState } from "react";
 import { ChangePhoto } from "./components/ChangePhoto";
-import { FormInputs } from "./components/Inputs";
+import { FormInputs } from "./components/FormInputs";
 import { PhotoSkeleton } from "./components/PhotoSkeleton";
 
 import * as FileSystem from "expo-file-system";

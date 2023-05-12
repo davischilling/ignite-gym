@@ -32,3 +32,9 @@
 - form-validation
 > npm install react-hook-form
 > npm install @hookform/resolvers yup
+
+- Api requests
+> npm i axios
+
+- Local Storage
+> npx expo install @react-native-async-storage/async-storage

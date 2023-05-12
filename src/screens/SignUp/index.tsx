@@ -3,9 +3,9 @@ import { ScrollView, VStack } from "native-base";
 
 import { Button } from "@/components/Button";
 import { FormValidation } from "@/contexts/Validation";
+import { useAuth } from "@/hooks/useAuth";
 import {
   SignUpDefaultValues,
-  SignUpFormData,
   signUpSchema,
   SignUpValidationContext,
 } from "@/validations/signUp";
@@ -14,12 +14,10 @@ import { Header } from "./components/Header";
 
 export const SignUp = () => {
   const navigation = useNavigation();
+  const { isLoading, handleSignUpSubmit } = useAuth();
+
   const handleGoBack = () => {
     navigation.goBack();
-  };
-
-  const handleSignUpSubmit = (data: SignUpFormData) => {
-    console.log(data);
   };
 
   return (
@@ -34,7 +32,7 @@ export const SignUp = () => {
           schema={signUpSchema}
           defaultValues={SignUpDefaultValues}
         >
-          <FormInputs onSubmit={handleSignUpSubmit} />
+          <FormInputs onSubmit={handleSignUpSubmit} isLoading={isLoading} />
         </FormValidation>
         <Button
           title="Voltar para o login"

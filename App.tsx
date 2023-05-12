@@ -8,6 +8,7 @@ import { Routes } from "@/navigation/index";
 import { THEME } from "@/theme/index";
 import { NativeBaseProvider, VStack } from "native-base";
 import { StatusBar } from "react-native";
+import { AuthProvider } from "@/contexts/Auth";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -22,7 +23,9 @@ export default function App() {
         translucent
       />
       {fontsLoaded ? (
-        <Routes />
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       ) : (
         <VStack flex={1} bg="gray.700">
           <Loading />

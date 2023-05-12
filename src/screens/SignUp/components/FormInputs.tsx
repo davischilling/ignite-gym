@@ -7,9 +7,10 @@ import { Input } from "@/components/Input";
 
 export type Props = {
   onSubmit: (data: SignUpFormData) => void;
+  isLoading: boolean;
 };
 
-export const FormInputs = ({ onSubmit }: Props) => {
+export const FormInputs = ({ onSubmit, isLoading }: Props) => {
   const { control, errors, handleSubmit } = useContext(SignUpValidationContext);
 
   return (
@@ -68,7 +69,7 @@ export const FormInputs = ({ onSubmit }: Props) => {
           />
         )}
       />
-      <Button title="Criar e acessar" onPress={handleSubmit(onSubmit)} />
+      <Button title="Criar e acessar" onPress={handleSubmit(onSubmit)} isLoading={isLoading} />
     </>
   );
 };

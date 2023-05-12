@@ -1,36 +1,24 @@
-import { VStack, Image, Text, Center, Heading, ScrollView } from "native-base";
-import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "@/navigation/auth.routes";
+import { useNavigation } from "@react-navigation/native";
+import { Center, ScrollView, Text, VStack } from "native-base";
 
-import BGImg from "@/assets/background.png";
-import LogoSVG from "@/assets/logo.svg";
-import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
-import { Header } from "./components/Header";
 import { FormValidation } from "@/contexts/Validation";
+import { useAuth } from "@/hooks/useAuth";
 import {
   SignInDefaultValues,
-  SignInFormData,
   signInSchema,
   SignInValidationContext,
 } from "@/validations/signIn";
 import { FormInputs } from "./components/FormInputs";
-
-const IGText = ({ text }: { text: string }) => (
-  <Text color="gray.100" fontSize="sm">
-    {text}
-  </Text>
-);
+import { Header } from "./components/Header";
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const { isLoading, handleSignInSubmit } = useAuth();
 
   const handleNavigateToSignUp = () => {
     navigation.navigate("SignUp");
-  };
-
-  const handleSignInSubmit = (data: SignInFormData) => {
-    console.log(data);
   };
 
   return (
@@ -45,7 +33,7 @@ export const SignIn = () => {
           schema={signInSchema}
           defaultValues={SignInDefaultValues}
         >
-          <FormInputs onSubmit={handleSignInSubmit} />
+          <FormInputs onSubmit={handleSignInSubmit} isLoading={isLoading} />
         </FormValidation>
 
         <Center mt={24}>

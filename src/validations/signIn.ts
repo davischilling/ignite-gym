@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { createContext } from "react";
-import { ValidationContextType } from "@/contexts/Validation";
+import { ValidationContextDataProps } from "@/contexts/Validation";
 
 export type SignInFormData = {
   email: string;
@@ -8,7 +8,7 @@ export type SignInFormData = {
 };
 
 export const SignInValidationContext = createContext(
-  {} as ValidationContextType<SignInFormData>
+  {} as ValidationContextDataProps<SignInFormData>
 );
 
 export const SignInDefaultValues = {

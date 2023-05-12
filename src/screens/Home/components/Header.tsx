@@ -5,10 +5,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 type Props = {
   greetings: string;
   name: string;
+  onPress: () => Promise<void>;
   children: React.ReactNode;
 };
 
-export const Header = ({ greetings, name, children }: Props) => (
+export const Header = ({ greetings, name, children, onPress }: Props) => (
   <HStack bg="gray.600" pt={16} pb={5} px={8} alignItems="center">
     {children}
     <VStack flex={1} ml={4}>
@@ -19,7 +20,7 @@ export const Header = ({ greetings, name, children }: Props) => (
         {name}
       </Heading>
     </VStack>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <Icon as={MaterialIcons} name="logout" color="gray.200" size={7} />
     </TouchableOpacity>
   </HStack>
