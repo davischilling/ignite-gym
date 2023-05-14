@@ -6,7 +6,7 @@ import { ExerciseCardList } from "./components/ExerciseCardList";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
 import { UserPhoto } from "@/presentation/components/UserPhoto";
-import { useAuth } from "@/domain/hooks/useAuth";
+import { useAuth } from "@/domain/hooks/use_auth";
 
 import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
 

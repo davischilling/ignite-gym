@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ScrollView, VStack } from "native-base";
 
 import { Button } from "@/presentation/components/Button";
-import { FormValidation } from "@/presentation/contexts/Validation";
-import { useAuth } from "@/domain/hooks/useAuth";
+import { FormValidation } from "@/presentation/contexts/validation";
+import { useAuth } from "@/domain/hooks/use_auth";
 import {
   SignUpDefaultValues,
   signUpSchema,

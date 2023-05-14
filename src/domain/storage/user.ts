@@ -1,4 +1,4 @@
-import { UserModel } from "@/domain/models/User";
+import { UserModel } from "@/domain/models/user";
 import { USER_STORAGE } from "@/domain/storage/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

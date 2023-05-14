@@ -1,8 +1,9 @@
-import { AppError } from "@/domain/utils/AppError";
+import { AppError } from "@/domain/utils/app_error";
 import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://192.168.15.8:3333",
+  timeout: 6000,
 });
 
 api.interceptors.request.use(

@@ -1,4 +1,4 @@
-import { useAuth } from "@/domain/hooks/useAuth";
+import { useAuth } from "@/domain/hooks/use_auth";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { Box, useTheme } from "native-base";
 import { Loading } from "../components";

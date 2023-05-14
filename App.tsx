@@ -8,7 +8,7 @@ import { Routes } from "@/presentation/navigation/index";
 import { THEME } from "@/presentation/theme/index";
 import { NativeBaseProvider, VStack } from "native-base";
 import { StatusBar } from "react-native";
-import { AuthProvider } from "@/presentation/contexts/Auth";
+import { AuthProvider } from "@/presentation/contexts/auth";
 
 export default function App() {
   const [fontsLoaded] = useFonts({

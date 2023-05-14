@@ -4,7 +4,6 @@
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "@/domain/factories/*": ["domain/factories/*"],
       "@/domain/hooks/*": ["domain/hooks/*"],
       "@/domain/models/*": ["domain/models/*"],
       "@/domain/services/*": ["domain/services/*"],

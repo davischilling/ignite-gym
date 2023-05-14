@@ -1,15 +1,25 @@
-import { makeSignInService, makeSignUpService } from "@/domain/factories/auth";
 import { StatefulUseCase } from "@/domain/hooks/use_stateful_uc";
-import { UserModel } from "@/domain/models/User";
+import { AuthTokenModel } from "@/domain/models/token";
+import { UserModel } from "@/domain/models/user";
 import { api } from "@/domain/services/api";
-import { deleteStorageAuthToken, getStorageAuthToken } from "@/domain/storage/token";
-import { deleteStorageUser, getStorageUser } from "@/domain/storage/user";
-import { AppError } from "@/domain/utils/AppError";
-import { SignUpFormData } from "@/domain/validations/signUp";
+import { signInService } from "@/domain/services/auth/sign_in";
+import { signUpService } from "@/domain/services/auth/sign_up";
+import {
+  deleteStorageAuthToken,
+  getStorageAuthToken,
+  setStorageAuthToken,
+} from "@/domain/storage/token";
+import {
+  deleteStorageUser,
+  getStorageUser,
+  setStorageUser,
+} from "@/domain/storage/user";
+import { errorHandler } from "@/domain/utils/error_handler";
 import { SignInFormData } from "@/domain/validations/signIn";
+import { SignUpFormData } from "@/domain/validations/signUp";
 import { IToastProps } from "native-base";
 
-type ToastProps = {
+export type ToastProps = {
   show: (props: IToastProps) => any;
 };
 
@@ -30,76 +40,77 @@ export const DEFAULT_STATE: State = {
 export class AuthContextUseCase extends StatefulUseCase<State> {
   init = async () => {
     await this.loadAuthStorageInitialState();
-  }
+  };
 
   loadAuthStorageInitialState = async () => {
-    try {
-      const user = await getStorageUser();
-      const authToken = await getStorageAuthToken();
-      this.updateUser(user, () => {
-        api.defaults.headers.authorization = `Bearer ${authToken}`;
-      });
-    } catch (err) {
-      throw err;
-    } finally {
-      this.stopLoadingUserFromStorage();
-    }
+    await errorHandler({
+      mainCb: async () => {
+        const user = await getStorageUser();
+        const authToken = await getStorageAuthToken();
+        this.updateUser(user, () => {
+          api.defaults.headers.authorization = `Bearer ${authToken}`;
+        });
+      },
+      errorMessage:
+        "Erro ao carregar dados do usuário. Tente novamente mais tarde.",
+      finallyCb: async () => this.stopLoadingUserFromStorage(),
+      toast: this.state.toast,
+    });
   };
 
   handleSignInSubmit = async (params: SignInFormData) => {
-    try {
-      this.startLoading();
-      const user = await makeSignInService().handle(params);
-      this.updateUser(user);
-    } catch (err) {
-      const isAppError = err instanceof AppError;
-      const title = isAppError ? err.message : "Erro ao fazer login";
-      this.state.toast.show({
-        title,
-        placement: "top",
-        bgColor: "red.500",
-      });
-    } finally {
-      this.stopLoading();
-    }
+    await errorHandler({
+      mainCb: async () => {
+        this.startLoading();
+        const { user, token } = await signInService.handle(params);
+        await setStorageUser(user);
+        await this.updateAuthToken(token);
+        this.updateUser(user);
+      },
+      errorMessage: "Erro ao fazer login. Tente novamente mais tarde.",
+      finallyCb: async () => this.stopLoading(),
+      toast: this.state.toast,
+    });
   };
 
   handleSignUpSubmit = async (params: SignUpFormData) => {
-    try {
-      this.startLoading();
-      const user = await makeSignUpService().handle(params);
-      this.updateUser(user);
-    } catch (err) {
-      const isAppError = err instanceof AppError;
-      const title = isAppError
-        ? err.message
-        : "Não foi possível criar a conta. Tente novamente mais tarde.";
-      this.state.toast.show({
-        title,
-        placement: "top",
-        bgColor: "red.500",
-      });
-    } finally {
-      this.stopLoading();
-    }
+    await errorHandler({
+      mainCb: async () => {
+        this.startLoading();
+        const { user, token } = await signUpService.handle(params);
+        await setStorageUser(user);
+        await this.updateAuthToken(token);
+        this.updateUser(user);
+      },
+      errorMessage:
+        "Não foi possível criar a conta. Tente novamente mais tarde.",
+      finallyCb: async () => this.stopLoading(),
+      toast: this.state.toast,
+    });
   };
 
   handleSignOut = async () => {
-    try {
-      this.startLoadingUserFromStorage();
-      await deleteStorageUser();
-      await deleteStorageAuthToken();
-      this.updateUser({} as UserModel);
-    } catch (err) {
-      throw err;
-    } finally {
-      this.stopLoadingUserFromStorage();
-    }
+    await errorHandler({
+      mainCb: async () => {
+        this.startLoadingUserFromStorage();
+        await deleteStorageUser();
+        await deleteStorageAuthToken();
+        this.updateUser({} as UserModel);
+      },
+      errorMessage: "Não foi possível fazer logout.",
+      finallyCb: async () => this.stopLoadingUserFromStorage(),
+      toast: this.state.toast,
+    });
   };
 
   private updateUser(user: UserModel, cb?: () => void) {
     this.setState({ user }, cb);
   }
+
+  private updateAuthToken = async (authToken: AuthTokenModel) => {
+    await setStorageAuthToken(authToken);
+    api.defaults.headers.authorization = `Bearer ${authToken}`;
+  };
 
   private startLoading = () => {
     this.setState({ isLoading: true });

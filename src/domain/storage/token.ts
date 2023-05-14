@@ -1,14 +1,12 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthTokenModel } from "@/domain/models/token";
 import { AUTH_TOKEN_STORAGE } from "@/domain/storage/index";
-import { api } from "@/domain/services/api";
-import { AuthTokenModel } from "@/domain/models/Token";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function setStorageAuthToken(authToken: AuthTokenModel) {
   await AsyncStorage.setItem(
     `${AUTH_TOKEN_STORAGE}`,
     JSON.stringify(authToken)
   );
-  api.defaults.headers.authorization = `Bearer ${authToken}`;
 }
 
 export async function getStorageAuthToken(): Promise<AuthTokenModel> {
