@@ -17,11 +17,7 @@ import {
 import { errorHandler } from "@/domain/utils/error_handler";
 import { SignInFormData } from "@/domain/validations/signIn";
 import { SignUpFormData } from "@/domain/validations/signUp";
-import { IToastProps } from "native-base";
-
-export type ToastProps = {
-  show: (props: IToastProps) => any;
-};
+import { ToastProps } from "presentation/@types/toast";
 
 export type State = {
   user: UserModel;
@@ -39,10 +35,10 @@ export const DEFAULT_STATE: State = {
 
 export class AuthContextUseCase extends StatefulUseCase<State> {
   init = async () => {
-    await this.loadAuthStorageInitialState();
+    await this.loadInitialState();
   };
 
-  loadAuthStorageInitialState = async () => {
+  loadInitialState = async () => {
     await errorHandler({
       mainCb: async () => {
         const user = await getStorageUser();

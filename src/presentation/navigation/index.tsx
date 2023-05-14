@@ -1,4 +1,4 @@
-import { useAuth } from "@/domain/hooks/use_auth";
+import { useHooks } from "@/domain/hooks/use_hooks";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { Box, useTheme } from "native-base";
 import { Loading } from "../components";
@@ -7,7 +7,8 @@ import { AuthRoutes } from "./auth.routes";
 
 export const Routes = () => {
   const { colors } = useTheme();
-  const { user, isLoadingUserFromStorage } = useAuth();
+  const {auth} = useHooks();
+  const { user, isLoadingUserFromStorage } = auth;
 
   const theme = DefaultTheme;
   theme.colors.background = colors.gray[700];

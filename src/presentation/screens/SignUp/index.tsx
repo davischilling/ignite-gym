@@ -1,24 +1,22 @@
-import { useNavigation } from "@react-navigation/native";
 import { ScrollView, VStack } from "native-base";
-
-import { Button } from "@/presentation/components/Button";
-import { FormValidation } from "@/presentation/contexts/validation";
-import { useAuth } from "@/domain/hooks/use_auth";
+import { useHooks } from "@/domain/hooks/use_hooks";
 import {
   SignUpDefaultValues,
   signUpSchema,
   SignUpValidationContext,
 } from "@/domain/validations/signUp";
+import { Button } from "@/presentation/components/Button";
+import { FormValidation } from "@/presentation/contexts/validation";
 import { FormInputs } from "./components/FormInputs";
 import { Header } from "./components/Header";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 
 export const SignUp = () => {
-  const navigation = useNavigation();
-  const { isLoading, handleSignUpSubmit } = useAuth();
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
+  const authNavigation = useNavigation<AuthNavigatorRoutesProps>();
+  const {
+    auth: { isLoading, handleSignUpSubmit },
+  } = useHooks();
 
   return (
     <ScrollView
@@ -38,7 +36,7 @@ export const SignUp = () => {
           title="Voltar para o login"
           variant="outline"
           mt={12}
-          onPress={handleGoBack}
+          onPress={() => authNavigation.goBack()}
         />
       </VStack>
     </ScrollView>

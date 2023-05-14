@@ -1,25 +1,23 @@
-import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
-import { useNavigation } from "@react-navigation/native";
 import { Center, ScrollView, Text, VStack } from "native-base";
 
-import { Button } from "@/presentation/components/Button";
-import { FormValidation } from "@/presentation/contexts/validation";
-import { useAuth } from "@/domain/hooks/use_auth";
+import { useHooks } from "@/domain/hooks/use_hooks";
 import {
   SignInDefaultValues,
   signInSchema,
   SignInValidationContext,
 } from "@/domain/validations/signIn";
+import { Button } from "@/presentation/components/Button";
+import { FormValidation } from "@/presentation/contexts/validation";
 import { FormInputs } from "./components/FormInputs";
 import { Header } from "./components/Header";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 
 export const SignIn = () => {
-  const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const { isLoading, handleSignInSubmit } = useAuth();
-
-  const handleNavigateToSignUp = () => {
-    navigation.navigate("SignUp");
-  };
+  const authNavigation = useNavigation<AuthNavigatorRoutesProps>();
+  const {
+    auth: { isLoading, handleSignInSubmit },
+  } = useHooks();
 
   return (
     <ScrollView
@@ -43,7 +41,7 @@ export const SignIn = () => {
           <Button
             title="Criar conta"
             variant="outline"
-            onPress={handleNavigateToSignUp}
+            onPress={() => authNavigation.navigate("SignUp")}
           />
         </Center>
       </VStack>

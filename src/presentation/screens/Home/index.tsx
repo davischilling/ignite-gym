@@ -1,26 +1,39 @@
-import { useState } from "react";
 import { VStack } from "native-base";
+import { useState } from "react";
 
+import { UserPhoto } from "@/presentation/components/UserPhoto";
 import { ExerciseCounter, GroupList, Header } from "./components";
 import { ExerciseCardList } from "./components/ExerciseCardList";
+
+import { useHooks } from "@/domain/hooks/use_hooks";
+import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";
+import {
+  DEFAULT_STATE,
+  HomeScreenUseCase,
+  State,
+} from "@/domain/use_cases/screens/home";
+import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
-import { UserPhoto } from "@/presentation/components/UserPhoto";
-import { useAuth } from "@/domain/hooks/use_auth";
 
-import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
-
-const GROUPS = ["Costas", "Ombros", "Pernas", "Braços", "Peito"];
 const EXERCISES = ["Remada", "Puxada", "Ombrada", "Sarrada"];
 
 export const Home = () => {
-  const { user, handleSignOut } = useAuth();
+  const appNavigation = useNavigation<AppNavigatorRoutesProps>();
+  const {
+    toast,
+    auth: { user, handleSignOut },
+  } = useHooks();
+
   const [groupSelected, setGroupSelected] = useState("costas");
 
-  const navigation = useNavigation<AppNavigatorRoutesProps>();
-  const handleNavigateToExerciseDetails = () => {
-    navigation.navigate("Exercise");
-  };
+  const { state, useCase } = useStatefulUseCase<State, HomeScreenUseCase>({
+    UseCase: HomeScreenUseCase,
+    DEFAULT_STATE,
+    INITIAL_STATE: {
+      toast,
+    },
+  });
 
   return (
     <VStack flex={1}>
@@ -38,7 +51,7 @@ export const Home = () => {
         />
       </Header>
       <GroupList
-        groups={GROUPS}
+        groups={state.groups}
         groupSelected={groupSelected}
         setGroupSelected={setGroupSelected}
       />
@@ -46,7 +59,7 @@ export const Home = () => {
         <ExerciseCounter title="Exercícios" counter={EXERCISES.length} />
         <ExerciseCardList
           exercises={EXERCISES}
-          onPress={handleNavigateToExerciseDetails}
+          onPress={() => appNavigation.navigate("Exercise")}
         />
       </VStack>
     </VStack>
