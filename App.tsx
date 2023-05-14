@@ -1,14 +1,14 @@
-import { Loading } from "@/components/Loading";
+import { Loading } from "@/presentation/components/Loading";
 import {
   Roboto_400Regular,
   Roboto_700Bold,
   useFonts
 } from "@expo-google-fonts/roboto";
-import { Routes } from "@/navigation/index";
-import { THEME } from "@/theme/index";
+import { Routes } from "@/presentation/navigation/index";
+import { THEME } from "@/presentation/theme/index";
 import { NativeBaseProvider, VStack } from "native-base";
 import { StatusBar } from "react-native";
-import { AuthProvider } from "@/contexts/Auth";
+import { AuthProvider } from "@/presentation/contexts/Auth";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
