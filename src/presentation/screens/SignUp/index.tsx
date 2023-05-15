@@ -1,5 +1,4 @@
-import { ScrollView, VStack } from "native-base";
-import { useHooks } from "@/domain/hooks/use_hooks";
+import { useAuth } from "@/domain/hooks/use_auth";
 import {
   SignUpDefaultValues,
   signUpSchema,
@@ -7,16 +6,15 @@ import {
 } from "@/domain/validations/signUp";
 import { Button } from "@/presentation/components/Button";
 import { FormValidation } from "@/presentation/contexts/validation";
+import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
+import { useNavigation } from "@react-navigation/native";
+import { ScrollView, VStack } from "native-base";
 import { FormInputs } from "./components/FormInputs";
 import { Header } from "./components/Header";
-import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 
 export const SignUp = () => {
   const authNavigation = useNavigation<AuthNavigatorRoutesProps>();
-  const {
-    auth: { isLoading, handleSignUpSubmit },
-  } = useHooks();
+  const { isLoading, handleSignUpSubmit } = useAuth();
 
   return (
     <ScrollView

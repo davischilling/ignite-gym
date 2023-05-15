@@ -5,14 +5,14 @@ import {
 import { SignIn } from "@/presentation/screens/SignIn";
 import { SignUp } from "@/presentation/screens/SignUp";
 
-export type AuthRoutes = {
+export type AuthStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
 };
 
-export type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthRoutes>;
+export type AuthNavigatorRoutesProps = NativeStackNavigationProp<AuthStackParamList>;
 
-const { Navigator, Screen } = createNativeStackNavigator<AuthRoutes>();
+const { Navigator, Screen } = createNativeStackNavigator<AuthStackParamList>();
 
 export const AuthRoutes = () => (
   <Navigator screenOptions={{ headerShown: false }}>

@@ -1,24 +1,40 @@
+import { ExerciseModel } from "@/domain/models/exercise";
+import { Loading } from "@/presentation/components/Loading";
+import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
 import { FlatList } from "native-base";
 import { ExerciseCard } from "./ExerciseCard";
 
 type Props = {
-  exercises: string[];
-  onPress: () => void;
+  exercises: ExerciseModel[];
+  loading: boolean;
+  appNavigation: AppNavigatorRoutesProps;
 };
 
-export const ExerciseCardList = ({ exercises, onPress }: Props) => (
-  <FlatList
-    data={exercises}
-    keyExtractor={(item) => item}
-    renderItem={({ item }) => (
-      <ExerciseCard
-        heading={item}
-        description="3 séries de 10 repetições"
-        uri="https://conteudo.imguol.com.br/c/entretenimento/0c/2019/12/03/remada-unilateral-com-halteres-1575402100538_v2_600x600.jpg"
-        onPress={onPress}
+export const ExerciseCardList = ({
+  exercises,
+  loading,
+  appNavigation,
+}: Props) => (
+  <>
+    {loading ? (
+      <Loading />
+    ) : (
+      <FlatList
+        data={exercises}
+        keyExtractor={({ id }) => id.toString()}
+        renderItem={({ item }) => (
+          <ExerciseCard
+            exercise={item}
+            onPress={() =>
+              appNavigation.navigate("Exercise", {
+                exerciseId: String(item.id),
+              })
+            }
+          />
+        )}
+        showsVerticalScrollIndicator={false}
+        _contentContainerStyle={{ pb: 4 }}
       />
     )}
-    showsVerticalScrollIndicator={false}
-    _contentContainerStyle={{ pb: 4 }}
-  />
+  </>
 );

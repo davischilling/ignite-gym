@@ -1,6 +1,6 @@
 import { Center, ScrollView, Text, VStack } from "native-base";
 
-import { useHooks } from "@/domain/hooks/use_hooks";
+import { useAuth } from "@/domain/hooks/use_auth";
 import {
   SignInDefaultValues,
   signInSchema,
@@ -8,16 +8,14 @@ import {
 } from "@/domain/validations/signIn";
 import { Button } from "@/presentation/components/Button";
 import { FormValidation } from "@/presentation/contexts/validation";
+import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
+import { useNavigation } from "@react-navigation/native";
 import { FormInputs } from "./components/FormInputs";
 import { Header } from "./components/Header";
-import { useNavigation } from "@react-navigation/native";
-import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 
 export const SignIn = () => {
   const authNavigation = useNavigation<AuthNavigatorRoutesProps>();
-  const {
-    auth: { isLoading, handleSignInSubmit },
-  } = useHooks();
+  const { isLoading, handleSignInSubmit } = useAuth();
 
   return (
     <ScrollView

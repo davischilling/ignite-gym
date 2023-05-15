@@ -1,11 +1,10 @@
-import { VStack } from "native-base";
-import { useState } from "react";
+import { useToast, VStack } from "native-base";
 
 import { UserPhoto } from "@/presentation/components/UserPhoto";
 import { ExerciseCounter, GroupList, Header } from "./components";
 import { ExerciseCardList } from "./components/ExerciseCardList";
 
-import { useHooks } from "@/domain/hooks/use_hooks";
+import { useAuth } from "@/domain/hooks/use_auth";
 import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";
 import {
   DEFAULT_STATE,
@@ -13,19 +12,13 @@ import {
   State,
 } from "@/domain/use_cases/screens/home";
 import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
-import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
-
-const EXERCISES = ["Remada", "Puxada", "Ombrada", "Sarrada"];
+import { useNavigation } from "@react-navigation/native";
 
 export const Home = () => {
   const appNavigation = useNavigation<AppNavigatorRoutesProps>();
-  const {
-    toast,
-    auth: { user, handleSignOut },
-  } = useHooks();
-
-  const [groupSelected, setGroupSelected] = useState("costas");
+  const { user, handleSignOut } = useAuth();
+  const toast = useToast();
 
   const { state, useCase } = useStatefulUseCase<State, HomeScreenUseCase>({
     UseCase: HomeScreenUseCase,
@@ -52,14 +45,16 @@ export const Home = () => {
       </Header>
       <GroupList
         groups={state.groups}
-        groupSelected={groupSelected}
-        setGroupSelected={setGroupSelected}
+        groupSelected={state.groupSelected}
+        setGroupSelected={(t) => useCase!.updateGroupSelected(t)!}
+        isDisabled={state.isExercisesLoading}
       />
       <VStack flex={1} px={4}>
-        <ExerciseCounter title="Exercícios" counter={EXERCISES.length} />
+        <ExerciseCounter title="Exercícios" counter={state.exercises.length} />
         <ExerciseCardList
-          exercises={EXERCISES}
-          onPress={() => appNavigation.navigate("Exercise")}
+          exercises={state.exercises}
+          appNavigation={appNavigation}
+          loading={state.isExercisesLoading}
         />
       </VStack>
     </VStack>

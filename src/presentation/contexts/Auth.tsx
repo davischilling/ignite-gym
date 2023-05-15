@@ -1,6 +1,5 @@
-import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";
+import { useStatefulContextUseCase } from "@/domain/hooks/use_stateful_context_uc";
 import { UserModel } from "@/domain/models/User";
-
 import {
   AuthContextUseCase,
   DEFAULT_STATE,
@@ -29,7 +28,10 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const toast = useToast();
 
-  const { state, useCase } = useStatefulUseCase<State, AuthContextUseCase>({
+  const { state, useCase } = useStatefulContextUseCase<
+    State,
+    AuthContextUseCase
+  >({
     UseCase: AuthContextUseCase,
     DEFAULT_STATE,
     INITIAL_STATE: {

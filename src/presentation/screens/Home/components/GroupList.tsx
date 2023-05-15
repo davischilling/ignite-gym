@@ -5,12 +5,14 @@ type Props = {
   groups: string[];
   groupSelected: string;
   setGroupSelected: (name: string) => void;
+  isDisabled: boolean;
 };
 
 export const GroupList = ({
   groups,
   groupSelected,
   setGroupSelected,
+  isDisabled,
 }: Props) => (
   <FlatList
     data={groups}
@@ -20,6 +22,7 @@ export const GroupList = ({
         name={item}
         isActive={groupSelected.toLowerCase() === item.toLowerCase()}
         onPress={() => setGroupSelected(item)}
+        isDisabled={isDisabled}
       />
     )}
     horizontal

@@ -1,4 +1,4 @@
-import { StatefulUseCase } from "@/domain/hooks/use_stateful_uc";
+import { StatefulUseCase } from "@/domain/use_cases/index";
 import { AuthTokenModel } from "@/domain/models/token";
 import { UserModel } from "@/domain/models/user";
 import { api } from "@/domain/services/api";

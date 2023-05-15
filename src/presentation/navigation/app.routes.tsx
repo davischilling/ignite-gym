@@ -1,29 +1,31 @@
-import { Platform } from "react-native";
 import {
-  createBottomTabNavigator,
   BottomTabNavigationProp,
+  createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
+import { Platform } from "react-native";
 
 import { Exercise } from "@/presentation/screens/Exercise";
+import { History } from "@/presentation/screens/History";
 import { Home } from "@/presentation/screens/Home";
 import { Profile } from "@/presentation/screens/Profile";
-import { History } from "@/presentation/screens/History";
 
-import HomeSVG from "@/presentation/assets/home.svg";
 import HistorySVG from "@/presentation/assets/history.svg";
+import HomeSVG from "@/presentation/assets/home.svg";
 import ProfileSVG from "@/presentation/assets/profile.svg";
 import { useTheme } from "native-base";
 
-type AppRoutes = {
+export type AppBottomTabParamList = {
   Home: undefined;
   History: undefined;
   Profile: undefined;
-  Exercise: undefined;
+  Exercise: {
+    exerciseId: string;
+  };
 };
 
-export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
+export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppBottomTabParamList>;
 
-const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>();
+const { Navigator, Screen } = createBottomTabNavigator<AppBottomTabParamList>();
 
 export const AppRoutes = () => {
   const { sizes, colors } = useTheme();

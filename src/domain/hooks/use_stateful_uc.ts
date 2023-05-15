@@ -1,28 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-
-type StateCallback = () => void;
-type SetState<T = any> = (newState: Partial<T>, cb?: StateCallback) => void;
-
-export class StatefulUseCase<State> {
-  protected state: State;
-  protected setState: SetState<State>;
-
-  constructor(state: State, setStateCb: SetState<State>) {
-    this.state = state;
-    this.setState = (newState, cb) => {
-      this.state = Object.assign({}, this.state, newState);
-      setStateCb(newState, cb);
-    };
-  }
-
-  public getState(): State {
-    return this.state;
-  }
-
-  public async init(): Promise<void> {}
-
-  public async dispose(): Promise<void> {}
-}
+import {
+  StatefulUseCase,
+  SetState,
+  StateCallback,
+} from "@/domain/use_cases/index";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useStatefulContextUseCase } from "./use_stateful_context_uc";
 
 type StateFulUseCaseProps<
   State,
@@ -31,6 +14,7 @@ type StateFulUseCaseProps<
   UseCase: new (state: State, setStateCb: SetState<State>) => UseCaseClass;
   DEFAULT_STATE: State;
   INITIAL_STATE?: Partial<State>;
+  dependency?: any;
 };
 
 export function useStatefulUseCase<
@@ -40,25 +24,28 @@ export function useStatefulUseCase<
   UseCase,
   DEFAULT_STATE,
   INITIAL_STATE,
+  dependency,
 }: StateFulUseCaseProps<State, UseCaseClass>) {
-  const [logicState, setLogicState] = useState<State>(Object.assign({}, DEFAULT_STATE, INITIAL_STATE));
-  const useCaseLogicRef = useRef<UseCaseClass>();
+  const { state, useCase } = useStatefulContextUseCase<
+    State,
+    UseCaseClass
+  >({
+    UseCase,
+    DEFAULT_STATE,
+    INITIAL_STATE,
+  });
 
   useEffect(() => {
-    const setState = (newState: any, cb?: StateCallback) => {
-      setLogicState(oldState => Object.assign({}, oldState, newState));
-      cb && cb();
-    };
+    if (dependency && dependency !== useCase?.dependency) {
+      useCase?.updateDependency(dependency);
+    }
+  }, [dependency])
 
-    useCaseLogicRef.current = new UseCase(logicState, (newState, cb) => {
-      setState(newState, cb);
-    });
-    useCaseLogicRef.current.init();
+  useFocusEffect(
+    useCallback(() => {
+      useCase?.onFocus();
+    }, [useCase?.dependency])
+  );
 
-    return () => {
-      useCaseLogicRef.current?.dispose();
-    };
-  }, []);
-
-  return {state: logicState, useCase: useCaseLogicRef.current};
+  return { state, useCase };
 }
