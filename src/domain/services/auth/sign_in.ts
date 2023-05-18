@@ -8,6 +8,7 @@ import { api } from "../api";
 type SignInResponse = {
   user: UserModel;
   token: AuthTokenModel;
+  refresh_token: AuthTokenModel;
 };
 
 class SignInService extends Service<SignInFormData, SignInResponse> {
@@ -22,6 +23,7 @@ class SignInService extends Service<SignInFormData, SignInResponse> {
     return {
       user: data.user as UserModel,
       token: data.token as AuthTokenModel,
+      refresh_token: data.refresh_token as AuthTokenModel,
     };
   }
 }

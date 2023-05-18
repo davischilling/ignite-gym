@@ -1,11 +1,11 @@
+import { HistoryModel } from "@/domain/models/history";
 import { Heading, HStack, Text, VStack } from "native-base";
 
 type Props = {
-    group: string;
-    exercise: string;
+    data: HistoryModel;
 };
 
-export const HistoryCard = ({group, exercise}: Props) => (
+export const HistoryCard = ({data: {group, name, hour}}: Props) => (
   <HStack
     w="full"
     px={5}
@@ -21,11 +21,11 @@ export const HistoryCard = ({group, exercise}: Props) => (
         {group}
       </Heading>
       <Text color="gray.100" fontSize="lg" numberOfLines={1}>
-        {exercise}
+        {name}
       </Text>
     </VStack>
     <Text color="gray.300" fontSize="md">
-      08:56
+      {hour}
     </Text>
   </HStack>
 );

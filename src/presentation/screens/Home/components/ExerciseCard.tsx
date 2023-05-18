@@ -1,11 +1,11 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { Heading, HStack, Image, Text, VStack, Icon } from "native-base";
-import { Entypo } from "@expo/vector-icons";
 import { ExerciseModel } from "@/domain/models/exercise";
-import { api } from "@/domain/services/api";
+import { getExerciseThumbImage } from "@/domain/utils/get_server_image";
+import { Entypo } from "@expo/vector-icons";
+import { Heading, HStack, Icon, Image, Text, VStack } from "native-base";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 type Props = TouchableOpacityProps & {
-  exercise: ExerciseModel
+  exercise: ExerciseModel;
 };
 
 export const ExerciseCard = ({ exercise, ...rest }: Props) => (
@@ -19,7 +19,7 @@ export const ExerciseCard = ({ exercise, ...rest }: Props) => (
         mr={4}
         resizeMode="cover"
         source={{
-          uri: `${api.defaults.baseURL}/exercise/thumb/${exercise.thumb}`,
+          uri: getExerciseThumbImage(exercise.thumb),
         }}
       />
 

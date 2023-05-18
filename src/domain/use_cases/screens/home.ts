@@ -19,7 +19,7 @@ export const DEFAULT_STATE: State = {
   groups: [],
   groupSelected: "",
   exercises: [],
-  isLoading: false,
+  isLoading: true,
   isExercisesLoading: false,
   toast: {} as ToastProps,
 };
@@ -37,27 +37,32 @@ export class HomeScreenUseCase extends StatefulUseCase<State> {
   loadInitialState = async () => {
     await errorHandler({
       mainCb: async () => {
-        this.startLoading();
-        const { groups } = await getAllGroupsService.handle();
+        const { groups } = await getAllGroupsService.handle(null);
         this.updateGroups(groups);
         const groupSelected = groups[0];
         this.updateGroupSelected(groupSelected);
-        this.updateDependency(groupSelected);
+        this.updateOnFocusDependency(groupSelected);
+        this.stopLoading()
       },
       errorMessage: "Erro ao carregar os grupos.",
-      finallyCb: async () => this.stopLoading(),
       toast: this.state.toast,
     });
   };
 
-  public updateGroupSelected(groupSelected: string) {
+  public updateGroupSelected = async (groupSelected: string) => {
     if (groupSelected === this.state.groupSelected) return;
-    this.setState({ groupSelected }, async () => {
-      this.startExercisesLoading();
-      const { exercises } = await getExercisesByGroupService.handle(groupSelected);
-      this.updateExercises(exercises);
-      this.updateDependency(groupSelected);
-      this.stopExercisesLoading();
+    await errorHandler({
+      mainCb: async () => {
+        this.setState({ groupSelected }, async () => {
+          this.startExercisesLoading();
+          const { exercises } = await getExercisesByGroupService.handle(groupSelected);
+          this.updateExercises(exercises);
+          this.updateOnFocusDependency(groupSelected);
+          this.stopExercisesLoading()
+        });
+      },
+      errorMessage: "Erro ao carregar os exercícios do grupo.",
+      toast: this.state.toast,
     });
   }
 

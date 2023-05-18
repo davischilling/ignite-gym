@@ -2,7 +2,7 @@ import { Service } from "@/domain/services/index";
 import { AxiosInstance } from "axios";
 import { api } from "../api";
 
-class AddExerciseToHistory extends Service<string, void> {
+class AddExerciseToHistoryService extends Service<string, void> {
   constructor(private readonly api: AxiosInstance) {
     super();
   }
@@ -13,6 +13,6 @@ class AddExerciseToHistory extends Service<string, void> {
   }
 }
 
-const addExerciseToHistory = new AddExerciseToHistory(api);
+const addExerciseToHistoryService = new AddExerciseToHistoryService(api);
 
-export { addExerciseToHistory };
+export { addExerciseToHistoryService };

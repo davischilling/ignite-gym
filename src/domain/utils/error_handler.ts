@@ -1,4 +1,4 @@
-import { ToastProps } from "@/domain/use_cases/contexts/auth";
+import { ToastProps } from "presentation/@types/toast";
 import { AppError } from "./app_error";
 
 type ErrorHandlerProps = {
@@ -16,14 +16,17 @@ export const errorHandler = async ({
 }: ErrorHandlerProps) => {
   try {
     await mainCb();
-  } catch (e) {
+  } catch (e: any) {
     const isAppError = e instanceof AppError;
     const title = isAppError ? e.message : errorMessage;
-    toast.show({
-      title,
-      placement: "top",
-      bgColor: "red.500",
-    });
+    if ("token.invalid" !== e.message) {
+      toast.show({
+        title,
+        placement: "top",
+        bgColor: "red.500",
+        top: 10,
+      });
+    }
   } finally {
     finallyCb && finallyCb();
   }

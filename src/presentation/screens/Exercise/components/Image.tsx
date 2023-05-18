@@ -1,4 +1,4 @@
-import { api } from "@/domain/services/api";
+import { getExerciseDemoImage } from "@/domain/utils/get_server_image";
 import { Box, Image } from "native-base";
 
 type Props = {
@@ -11,7 +11,7 @@ export const ExerciseImage = ({ demo }: Props) => (
       w="full"
       h={80}
       source={{
-        uri: `${api.defaults.baseURL}/exercise/demo/${demo}`,
+        uri: getExerciseDemoImage(demo),
       }}
       alt="Nome do exercício"
       mb={3}

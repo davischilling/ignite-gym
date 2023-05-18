@@ -15,6 +15,10 @@ export interface AuthContextDataProps {
   handleSignInSubmit: (data: SignInFormData) => Promise<void>;
   handleSignUpSubmit: (data: SignUpFormData) => Promise<void>;
   handleSignOut: () => Promise<void>;
+  updatedUserProfile: (params: {
+    name?: string;
+    avatar?: string;
+  }) => Promise<void>;
   isLoading: boolean;
   isLoadingUserFromStorage: boolean;
 }
@@ -46,6 +50,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         handleSignInSubmit: useCase?.handleSignInSubmit!,
         handleSignUpSubmit: useCase?.handleSignUpSubmit!,
         handleSignOut: useCase?.handleSignOut!,
+        updatedUserProfile: useCase?.updatedUserProfile!,
         isLoading: state.isLoading,
         isLoadingUserFromStorage: state.isLoadingUserFromStorage,
       }}

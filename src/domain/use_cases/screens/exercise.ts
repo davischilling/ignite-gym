@@ -1,6 +1,6 @@
 import { ExerciseModel } from "@/domain/models/exercise";
 import { getExerciseByIdService } from "@/domain/services/exercise/get_by_id";
-import { addExerciseToHistory } from "@/domain/services/history/add_exercise_to_history";
+import { addExerciseToHistoryService } from "@/domain/services/history/add_exercise_to_history";
 import { StatefulUseCase } from "@/domain/use_cases/index";
 import { errorHandler } from "@/domain/utils/error_handler";
 import { ToastProps } from "presentation/@types/toast";
@@ -21,7 +21,7 @@ export const DEFAULT_STATE: State = {
   toast: {} as ToastProps,
 };
 
-export class ExerciseUseCase extends StatefulUseCase<State> {
+export class ExerciseScreenUseCase extends StatefulUseCase<State> {
   public init = async () => {
     await this.loadInitialState();
   };
@@ -41,11 +41,11 @@ export class ExerciseUseCase extends StatefulUseCase<State> {
     await errorHandler({
       mainCb: async () => {
         this.startRegisterLoading();
-        await addExerciseToHistory.handle(this.state.exerciseId);
+        await addExerciseToHistoryService.handle(this.state.exerciseId);
         this.state.toast.show({
-            title: "Parabéns! Exercício registrado no seu histórico.",
-            placement: "top",
-            bgColor: "green.700"
+          title: "Parabéns! Exercício registrado no seu histórico.",
+          placement: "top",
+          bgColor: "green.700",
         });
         cb();
       },
@@ -53,7 +53,7 @@ export class ExerciseUseCase extends StatefulUseCase<State> {
       finallyCb: async () => this.stopRegisterLoading(),
       toast: this.state.toast,
     });
-  }
+  };
 
   private loadInitialState = async () => {
     await errorHandler({

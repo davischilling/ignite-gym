@@ -5,6 +5,7 @@ import {
   FieldErrors,
   FieldValues,
   UseFormHandleSubmit,
+  UseFormReset,
 } from "react-hook-form";
 import * as yup from "yup";
 
@@ -12,6 +13,7 @@ export interface ValidationContextDataProps<T extends FieldValues> {
   control: Control<T, any>;
   handleSubmit: UseFormHandleSubmit<T>;
   errors: FieldErrors<T>;
+  reset: UseFormReset<T>;
 }
 
 interface ValidationProviderProps<T extends FieldValues> {
@@ -27,7 +29,7 @@ function ValidationProvider<T extends FieldValues>({
   schema,
   ValidationContext,
 }: ValidationProviderProps<T>) {
-  const { control, errors, handleSubmit } = useValidation<T>({
+  const { control, errors, handleSubmit, reset } = useValidation<T>({
     defaultValues,
     schema,
   });
@@ -38,6 +40,7 @@ function ValidationProvider<T extends FieldValues>({
         control,
         errors,
         handleSubmit,
+        reset,
       }}
     >
       {children}

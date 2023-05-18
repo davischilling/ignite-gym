@@ -15,10 +15,11 @@ export function useValidation<T extends FieldValues>({defaultValues, schema}: Pr
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<T>({
     defaultValues,
     resolver: yupResolver(schema),
   });
 
-  return {control, handleSubmit, errors}
+  return {control, handleSubmit, errors, reset}
 };

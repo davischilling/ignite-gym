@@ -14,6 +14,7 @@ import {
 import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
 import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
 import { useNavigation } from "@react-navigation/native";
+import { getAvatarImage } from "@/domain/utils/get_server_image";
 
 export const Home = () => {
   const appNavigation = useNavigation<AppNavigatorRoutesProps>();
@@ -36,7 +37,7 @@ export const Home = () => {
           source={
             user.avatar
               ? {
-                  uri: user.avatar,
+                  uri: getAvatarImage(user.avatar),
                 }
               : defaultUserAvatar
           }

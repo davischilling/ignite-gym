@@ -3,47 +3,49 @@ import { UserPhoto } from "@/presentation/components/UserPhoto";
 import { Center, ScrollView, useToast, VStack } from "native-base";
 import React, { useState } from "react";
 import { ChangePhoto } from "./components/ChangePhoto";
-import { FormInputs } from "./components/FormInputs";
 import { PhotoSkeleton } from "./components/PhotoSkeleton";
 
-import * as FileSystem from "expo-file-system";
-import * as ImagePicker from "expo-image-picker";
+import { useAuth } from "@/domain/hooks/use_auth";
+import {
+  ProfileFormData,
+  profileSchema,
+  ProfileValidationContext,
+} from "@/domain/validations/profile";
+import { FormValidation } from "@/presentation/contexts/validation";
 
+import { FormInputs } from "./components/FormInputs";
+import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";
+import {
+  ProfileScreenUseCase,
+  DEFAULT_STATE,
+  State,
+} from "@/domain/use_cases/screens/profile";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "@/presentation/navigation/app.routes";
+import defaultUserAvatar from "@/presentation/assets/userPhotoDefault.png";
+import { getAvatarImage } from "@/domain/utils/get_server_image";
 
 const PHOTO_SIZE = 33;
 
 export const Profile = () => {
-  const [isPhotoLoading, setIsPhotoLoading] = useState(false);
-  const [photo, setPhoto] = useState("https://avatars.githubusercontent.com/u/60005589?v=4");
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
   const toast = useToast();
+  const { user, updatedUserProfile } = useAuth();
 
-  const handleSelectImage = async () => {
-    setIsPhotoLoading(true);
-    try {
-      const photoSelected = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        quality: 1,
-        aspect: [4, 4],
-      });
-      if (photoSelected.canceled) return;
-      if (photoSelected.assets[0].uri) {
-        const photoInfo: any = await FileSystem.getInfoAsync(photoSelected.assets[0].uri);
-        if (photoInfo.size && (photoInfo.size / 1024 / 1024) > 0.1) {
-          return toast.show({
-            title: "A imagem deve ter no máximo 1MB",
-            bgColor: "red.500",
-            placement: "top",
-            marginTop: 10,
-          });
-        }
-        setPhoto(photoSelected.assets[0].uri);
-      }
-    } catch(e) {
-      console.log(e);
-    } finally {
-      setIsPhotoLoading(false);
-    }
+  const { state, useCase } = useStatefulUseCase<State, ProfileScreenUseCase>({
+    UseCase: ProfileScreenUseCase,
+    DEFAULT_STATE,
+    INITIAL_STATE: {
+      toast,
+    },
+  });
+
+  const handleSubmit = async (data: ProfileFormData) => {
+    if (data.name === user.name && !data.old_password) return;
+    await useCase?.handleUpdateProfileSubmit(data, async () => {
+      await updatedUserProfile({ name: data.name });
+      navigation.navigate("Home");
+    });
   };
 
   return (
@@ -51,19 +53,42 @@ export const Profile = () => {
       <Header title="Perfil" />
       <ScrollView>
         <Center my={6} px={10}>
-          {isPhotoLoading ? (
+          {state.isPhotoLoading ? (
             <PhotoSkeleton h={PHOTO_SIZE} w={PHOTO_SIZE} />
           ) : (
             <UserPhoto
               size={PHOTO_SIZE}
-              source={{
-                uri: photo,
-              }}
+              source={
+                user.avatar
+                  ? {
+                      uri: getAvatarImage(user.avatar),
+                    }
+                  : defaultUserAvatar
+              }
               alt="Foto do usuário"
             />
           )}
-          <ChangePhoto text="Alterar foto" onPress={handleSelectImage} />
-          <FormInputs />
+          <ChangePhoto
+            text="Alterar foto"
+            onPress={async () =>
+              await useCase!.handleSelectImage(async (avatar: string) => {
+                await updatedUserProfile({ avatar });
+              })
+            }
+          />
+          <FormValidation
+            ValidationContext={ProfileValidationContext}
+            schema={profileSchema}
+            defaultValues={{
+              name: user.name,
+            }}
+          >
+            <FormInputs
+              onSubmit={handleSubmit}
+              isLoading={state.isLoading}
+              email={user.email}
+            />
+          </FormValidation>
         </Center>
       </ScrollView>
     </VStack>

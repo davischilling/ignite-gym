@@ -1,10 +1,6 @@
-import {
-  StatefulUseCase,
-  SetState,
-  StateCallback,
-} from "@/domain/use_cases/index";
+import { SetState, StatefulUseCase } from "@/domain/use_cases/index";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useStatefulContextUseCase } from "./use_stateful_context_uc";
 
 type StateFulUseCaseProps<
@@ -26,25 +22,19 @@ export function useStatefulUseCase<
   INITIAL_STATE,
   dependency,
 }: StateFulUseCaseProps<State, UseCaseClass>) {
-  const { state, useCase } = useStatefulContextUseCase<
-    State,
-    UseCaseClass
-  >({
+  const { state, useCase } = useStatefulContextUseCase<State, UseCaseClass>({
     UseCase,
     DEFAULT_STATE,
     INITIAL_STATE,
   });
 
-  useEffect(() => {
-    if (dependency && dependency !== useCase?.dependency) {
-      useCase?.updateDependency(dependency);
-    }
-  }, [dependency])
-
   useFocusEffect(
     useCallback(() => {
+      if (dependency && dependency !== useCase?.onFocusDependency) {
+        useCase?.updateOnFocusDependency(dependency);
+      }
       useCase?.onFocus();
-    }, [useCase?.dependency])
+    }, [useCase?.onFocusDependency ? useCase?.onFocusDependency : null])
   );
 
   return { state, useCase };

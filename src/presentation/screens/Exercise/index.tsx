@@ -1,21 +1,18 @@
 import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";
-import { ExerciseModel } from "@/domain/models/exercise";
 import {
-  AppNavigatorRoutesProps,
-  AppBottomTabParamList,
+  DEFAULT_STATE,
+  ExerciseScreenUseCase,
+  State
+} from "@/domain/use_cases/screens/exercise";
+import {
+  AppBottomTabParamList, AppNavigatorRoutesProps
 } from "@/presentation/navigation/app.routes";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ScrollView, useToast, VStack } from "native-base";
+import { Loading } from "../../components";
 import { BoxSeries } from "./components/BoxSeries";
 import { Header } from "./components/Header";
 import { ExerciseImage } from "./components/Image";
-import {
-  DEFAULT_STATE,
-  ExerciseUseCase,
-  State,
-} from "@/domain/use_cases/screens/exercise";
-import { Loading } from "../../components";
-import { useEffect } from "react";
 
 export const Exercise = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -24,8 +21,8 @@ export const Exercise = () => {
     params: { exerciseId },
   } = useRoute<RouteProp<AppBottomTabParamList, "Exercise">>();
 
-  const { state, useCase } = useStatefulUseCase<State, ExerciseUseCase>({
-    UseCase: ExerciseUseCase,
+  const { state, useCase } = useStatefulUseCase<State, ExerciseScreenUseCase>({
+    UseCase: ExerciseScreenUseCase,
     DEFAULT_STATE,
     INITIAL_STATE: {
       toast,
