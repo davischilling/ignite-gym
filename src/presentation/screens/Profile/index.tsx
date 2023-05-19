@@ -11,7 +11,7 @@ import {
   profileSchema,
   ProfileValidationContext,
 } from "@/domain/validations/profile";
-import { FormValidation } from "@/presentation/contexts/validation";
+import { FormValidation } from "@/presentation/contexts/Validation";
 
 import { FormInputs } from "./components/FormInputs";
 import { useStatefulUseCase } from "@/domain/hooks/use_stateful_uc";

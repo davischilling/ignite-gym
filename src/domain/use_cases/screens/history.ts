@@ -18,12 +18,10 @@ export const DEFAULT_STATE: State = {
 
 export class HistoryScreenUseCase extends StatefulUseCase<State> {
   public init = async () => {
-    console.log("init");
     await this.loadInitialState();
   };
 
   public onFocus = async () => {
-    console.log("onFocus ----------------");
     await this.loadInitialState();
   };
 

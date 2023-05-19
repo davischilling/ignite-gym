@@ -5,7 +5,7 @@ import {
   SignUpValidationContext,
 } from "@/domain/validations/signUp";
 import { Button } from "@/presentation/components/Button";
-import { FormValidation } from "@/presentation/contexts/validation";
+import { FormValidation } from "@/presentation/contexts/Validation";
 import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, VStack } from "native-base";

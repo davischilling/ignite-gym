@@ -63,7 +63,10 @@ api.registerInterceptorTokenManager = (signOut: Dependency) => {
                 return { token, refresh_token };
               })
               .then(({ token }) => {
-                if (originalConfig.data && typeof originalConfig.data === 'string') {
+                if (
+                  originalConfig.data &&
+                  typeof originalConfig.data === "string"
+                ) {
                   originalConfig.data = JSON.parse(originalConfig.data);
                 }
                 originalConfig.headers["Authorization"] = `Bearer ${token}`;
@@ -73,7 +76,6 @@ api.registerInterceptorTokenManager = (signOut: Dependency) => {
                 failedQueue.forEach((promise) => {
                   promise.onSuccess(token);
                 });
-                console.log("originalConfig");
                 resolve(api(originalConfig));
               })
               .catch((error) => {

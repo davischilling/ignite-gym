@@ -7,7 +7,7 @@ import {
   SignInValidationContext,
 } from "@/domain/validations/signIn";
 import { Button } from "@/presentation/components/Button";
-import { FormValidation } from "@/presentation/contexts/validation";
+import { FormValidation } from "@/presentation/contexts/Validation";
 import { AuthNavigatorRoutesProps } from "@/presentation/navigation/auth.routes";
 import { useNavigation } from "@react-navigation/native";
 import { FormInputs } from "./components/FormInputs";

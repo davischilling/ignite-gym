@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { createContext } from "react";
-import { ValidationContextDataProps } from "@/presentation/contexts/validation";
+import { ValidationContextDataProps } from "@/presentation/contexts/Validation";
 
 export type SignInFormData = {
   email: string;
